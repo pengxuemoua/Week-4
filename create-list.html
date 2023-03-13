@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Document</title>
+</head>
+<body>
+    
+    <!-- add text to help user -->
+    <p>Enter some text to add to the list:</p>
+
+    <!-- add text input and create button -->
+    <input id="new-text" type="text">
+    <button id="add-text">Add</button>
+    <button id="clear-text">Clear</button>
+
+    <!-- empty ul -->
+    <ul id="list-of-text"></ul>
+
+    <!-- empty p tag -->
+    <p id="error-message"></p>
+
+    <script>
+
+        //query select using id values
+        let textInput = document.querySelector('#new-text')
+        let addButton = document.querySelector('#add-text')
+        let clearButton = document.querySelector('#clear-text')
+        let textList = document.querySelector('#list-of-text')
+        let errorMessage = document.querySelector('#error-message')
+
+        let numberOfClick = 0 // initialize clicks 
+
+        //all for the "enter key"
+        document.addEventListener('keyup', function() {
+            if (event.keyCode == 13) {
+                addButton.click()
+            }
+        })
+
+        // code for the addButton click event handler
+        addButton.addEventListener('click', function() {
+            
+            numberOfClick++ //increment clicks by 1
+
+            let newText = textInput.value // declare newText variable and initialize with user input
+
+            //validate that user enter text in the textbox
+            if (newText.length == 0) {
+                alert('Please enter some text.')
+                return
+            }
+
+            //validate that user input is 50 or less than 
+            if (newText.length > 50) {
+                alert('Error, text must be 50 characters or less.')
+                return
+            }
+
+            //validate and limit the number of list items to 10 or less
+            if (numberOfClick < 11){
+            //read the text in the input
+            let newText = textInput.value
+            //create a new li element
+            let newListItem = document.createElement('li')
+            //the li element text should be the text from the input
+            newListItem.innerHTML = newText
+            // add new li element as a child of ul
+            textList.appendChild(newListItem)
+            //clear the text in the input
+            textInput.value = ''
+            } else {
+                errorMessage.innerHTML = 'You can only add 10 list items.'
+            }
+        })
+
+        //event handler that clears the ul and li, when user clicks the clearButton
+        clearButton.addEventListener('click', function() {
+            textList.innerHTML = ''
+            errorMessage.innerHTML = ''
+            numberOfClick = 0
+            textInput.value = ''
+        })
+
+
+    </script>
+
+
+</body>
+</html>

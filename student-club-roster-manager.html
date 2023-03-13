@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Student Club</title>
+
+  <style>
+      
+      .selected {
+        text-decoration: line-through ;
+        font-style: italic;
+        color: gray;
+      }
+
+      input {
+          width: 100%;
+          padding: 5px;
+          margin: 5px 5px 5px 0px;
+          box-sizing: border-box;
+
+      }
+
+  </style>
+
+</head>
+<body>
+
+    <h1>Student Club Roster</h1>
+
+    <h2>Add Students</h2>
+
+    <label for="student-name">Student Name</label><input id="student-name" name="student-name">
+    <br>
+    <label for="student-id">Student ID</label><input id="student-id" name="student-id">
+    <br>
+    <label for="student-gpa">Student GPA</label><input id="student-gpa" name="student-gpa" type="number">
+    <br>
+    <button id="add-student">Add Student</button>    
+
+    <h2>Student List</h2>
+
+    <p>There are 
+        <span id="student-count">
+          <!-- use JavaScript to count the number of students, and show here -->
+        </span> 
+    student(s) in the club.</p>
+    
+
+    <ul id="student-list">
+        <!-- use JavaScript to create li elements  -->
+    </ul>
+
+    <button id="remove-selected-students">Remove selected students</button>
+
+<script>
+
+    //Using JavaScript, display 0 in the span#student-count  (1pt)
+    let studentCount = document.querySelector('#student-count')
+    let currentCount = 0
+    studentCount.innerHTML = currentCount
+
+    // all my query selector codes
+    let addButton = document.querySelector('#add-student')
+    let studentName = document.querySelector('#student-name')
+    let studentId = document.querySelector('#student-id')
+    let studentGpa = document.querySelector('#student-gpa')
+    let studentList = document.querySelector('#student-list')
+    
+
+    //all for the "enter key"
+    document.addEventListener('keyup', function() {
+            if (event.keyCode == 13) {
+                addButton.click()
+            }
+        })
+
+        
+    // add button click event with defined function
+    addButton.addEventListener('click', function(){
+        
+        // store user input into variables
+        let name = studentName.value
+        let id = studentId.value
+        let gpa = studentGpa.value
+
+        //validates that user entered a student name
+        if (name.length == 0) {
+            alert('Please enter your student name.')
+            studentName.focus()
+            return
+        }
+
+        //validates that user enter a student id
+        if (id.length == 0) {
+            alert('Please enter your student id.')
+            studentId.focus()
+            return
+        }
+
+        //validates if user enter anything
+        if (gpa.length == 0) {
+            alert('Please enter your student gpa.')
+            studentGpa.focus()
+            return
+        }
+
+        //validates that gpa 0 - 4
+        if (gpa > 4){
+            alert('Sorry, gpa can not be greater than 4.')
+            studentGpa.value = ''
+            studentGpa.focus()
+            return
+        } else if (gpa < 0) {
+            alert('Sorry, gpa must be zero or greater.')
+            studentGpa.value = ''
+            studentGpa.focus()
+            return
+        }
+
+        // format student name, id and gpa
+        let studentRoster = `${name}, ID: ${id}, GPA: ${gpa}`
+
+        //create a new li element
+        let newListItem = document.createElement('li')
+        //the li element text should be formated student input
+        newListItem.innerHTML = studentRoster
+        // add new li element as a child of ul
+        studentList.appendChild(newListItem)
+
+        // toggle class, click event that adds or removes the class name "selected"
+        newListItem.addEventListener('click', function(){
+            this.classList.toggle("selected")
+        })
+
+        // clear all inputs and set focus on student name
+        studentName.value = ''
+        studentId.value = ''
+        studentGpa.value = ''
+        studentName.focus()
+
+        // update number of li, which will reflect how many students are in the club
+        currentCount++
+        studentCount.innerHTML = currentCount
+    })
+
+    // query select remove buttor
+    let removeStudentsButton = document.querySelector("#remove-selected-students")
+
+    // remove students that have the selected class, using a foreach loop
+    removeStudentsButton.addEventListener("click", function () {
+        let selectedStudents = document.querySelectorAll("li.selected")
+        selectedStudents.forEach(function(selected){
+        selected.remove()
+
+        // set current count to the length/number of li left 
+        currentCount = document.querySelectorAll("#student-list li").length
+        //display the remaining number of li
+        studentCount.innerHTML = currentCount
+        })
+    })
+    
+
+    
+    /* Add the following functionality to this page
+    [Note on HTML element notation: span#student-count means the span element with id="student-count" ]
+    When the page loads:
+        * Using JavaScript, display 0 in the span#student-count  (1pt) - COMPLETED
+    
+        * Add an event listener so that when button#add-students is clicked: - COMPLETED
+            - Read the value from the student-name input, save in a variable. If the name is not entered, show an alert error message and return. (1pt)
+            - Read the value from the student-id input, save in a variable. If the id is not entered, show an alert error message and return. (1pt)
+            - Read the value from the student-gpa input, save in a variable. If the GPA is not entered, or is not in the range 0-4, show an alert error message and return.  (1pt)
+            
+            - Create a new li element (1pt) - COMPLETED
+
+            - Set the innerHTML of the li element to a string containing the student's name, id, and GPA  (1pt)
+                for example "Beyonce Knowles, id: aa1234bb, GPA 3.8"
+                Use a template string to generate this string - COMPLETED
+            
+            - Add a click event handler to the new li element.  (3pt)
+            - When the li element is clicked, add the class="selected" to that li element.
+            - When that li element is clicked again, remove the class="selected" from that li element
+                In other words, clicking a li element will toggle the selected class. https://www.w3schools.com/howto/howto_js_toggle_class.asp
+            - Add the new li element to ul#student-list element (1pt)
+            - Clear the values of the three input elements (1pt)
+            - Update the span#student-count value to the new number of students (1pt)
+    
+        * Add an event listener so that when button#remove-selected-students is clicked:
+            - Remove all of the elements with the class="selected" from the list.   (3pt)
+            - Using the remove() function on an element will remove it. Example https://jsfiddle.net/rk9pm4vg/
+        
+        You should not need to modify any of the HTML. 
+    */
+
+</script>
+
+</body>
+</html>

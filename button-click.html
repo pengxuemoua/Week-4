@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h2 id="width"></h2>
+    <button>Click Here!</button>
+
+    <script>
+        let button = document.querySelector('button')
+        // declare variable using let, document is DOM, pass a css select to querySelector 
+
+        button.addEventListener('click', function(){
+            alert('You clicked the button!')
+        })
+        // create click event, create function definiton, alert with message box
+
+        function displayWidth() {
+        let width = document.body.scrollWidth;
+        let widthDisplayEl = document.querySelector('#width')
+        widthDisplayEl.innerHTML = `Window width = ${width} pixels`
+        };
+
+        displayWidth();
+
+        window.addEventListener('resize', displayWidth);
+
+    </script>
+
+</body>
+</html>

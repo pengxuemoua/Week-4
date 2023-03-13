@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Enrollment</title>
+</head>
+<body>
+    <label for="credits-taken"></label>
+    <p>How many credits are you taking this semester?</p>
+    <input type="number" id="credits-taken">
+    <button id="credits-entered">Enter</button>
+
+    <p id="credits-message"></p>
+
+
+    <script>
+
+        let enterButton = document.querySelector('#credits-entered')
+        let creditInput = document.querySelector('#credits-taken')
+        let creditsMessage = document.querySelector('#credits-message')
+
+        enterButton.addEventListener('click', function() {
+            let credits = creditInput.value
+            if (credits > 24) {
+                creditsMessage.innerHTML = `Sorry, the max credits you can take are 24 credits.`
+            } else if (credits > 12) {
+                creditsMessage.innerHTML = `You are enrolled as a full time student.`
+            } else if (credits >= 6) {
+                creditsMessage.innerHTML = `You are enrolled as a part time student.`
+            } else if (credits >= 0) {
+                creditsMessage.innerHTML = `You are enrolled less than half time student.`
+            } else {
+                creditsMessage.innerHTML = `You must enter a positive number.`
+            }
+        })
+
+
+    </script>
+
+</body>
+</html>
